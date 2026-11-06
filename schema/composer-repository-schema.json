@@ -1,0 +1,152 @@
+{
+  "$schema": "https://json-schema.org/draft-04/schema#",
+  "title": "Composer Package Repository",
+  "type": "object",
+  "properties": {
+    "packages": {
+      "$ref": "#/definitions/packages"
+    },
+    "metadata-url": {
+      "type": "string",
+      "description": "Endpoint to retrieve package metadata data from, in Composer v2 format, e.g. '/p2/%package%.json'."
+    }
+  },
+  "definitions": {
+    "packages": {
+      "type": [
+        "object",
+        "array"
+      ],
+      "description": "A hashmap of package names in the form of <vendor>/<name>.",
+      "additionalProperties": {
+        "$ref": "#/definitions/package-versions"
+      }
+    },
+    "package-versions": {
+      "type": [
+        "object",
+        "array"
+      ],
+      "additionalProperties": {
+        "$ref": "#/definitions/package"
+      },
+      "items": {
+        "$ref": "#/definitions/package"
+      }
+    },
+    "package": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "type": {
+          "type": "string"
+        },
+        "version": {
+          "type": "string"
+        },
+        "autoload": {
+          "$ref": "#/definitions/autoload"
+        },
+        "require": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "string"
+          }
+        },
+        "replace": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "string"
+          }
+        },
+        "conflict": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "string"
+          }
+        },
+        "provide": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "string"
+          }
+        },
+        "dist": {
+          "$ref": "#/definitions/dist"
+        }
+      }
+    },
+    "dist": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "type": "string"
+        },
+        "url": {
+          "type": "string"
+        },
+        "reference": {
+          "type": "string"
+        },
+        "shasum": {
+          "type": "string"
+        },
+        "mirrors": {
+          "type": "array"
+        }
+      }
+    },
+    "autoload": {
+      "type": "object",
+      "description": "Description of how the package can be autoloaded.",
+      "properties": {
+        "psr-0": {
+          "type": "object",
+          "description": "This is an object of namespaces (keys) and the directories they can be found in (values, can be arrays of paths) by the autoloader.",
+          "additionalProperties": {
+            "$ref": "#/definitions/string-or-array"
+          }
+        },
+        "psr-4": {
+          "type": "object",
+          "description": "This is an object of namespaces (keys) and the PSR-4 directories they can map to (values, can be arrays of paths) by the autoloader.",
+          "additionalProperties": {
+            "$ref": "#/definitions/string-or-array"
+          }
+        },
+        "classmap": {
+          "type": "array",
+          "description": "This is an array of paths that contain classes to be included in the class-map generation process.",
+          "items": {
+            "type": "string"
+          }
+        },
+        "files": {
+          "type": "array",
+          "description": "This is an array of files that are always required on every request.",
+          "items": {
+            "type": "string"
+          }
+        },
+        "exclude-from-classmap": {
+          "type": "array",
+          "description": "This is an array of patterns to exclude from autoload classmap generation. (e.g. \"exclude-from-classmap\": [\"/test/\", \"/tests/\", \"/Tests/\"]",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "string-or-array": {
+      "type": [
+        "string",
+        "array"
+      ],
+      "items": {
+        "type": "string"
+      }
+    }
+  }
+}
